@@ -1,0 +1,7 @@
+{
+  "name": "Bus vertrektijden Card",
+  "country": "NL",
+  "content_in_root": true,
+  "filename": "busvertrektijden-card.js",
+  "render_readme": true
+}

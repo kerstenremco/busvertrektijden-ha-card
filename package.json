@@ -1,0 +1,16 @@
+{
+  "source": "src/busvertrektijden-card.js",
+  "targets": {
+    "module": {
+      "includeNodeModules": true
+    }
+  },
+  "scripts": {
+    "watch": "parcel watch --dist-dir . --no-source-maps",
+    "build": "parcel build --dist-dir . --no-source-maps"
+  },
+  "devDependencies": {
+    "parcel": "^2.15.4",
+    "lit": "^3.3.1"
+  }
+}
