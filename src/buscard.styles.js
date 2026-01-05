@@ -6,8 +6,7 @@ export const styles = css`
   }
 
   .bus-card .bus-card-alert {
-    color: #ff5252;
-    font-weight: bold;
+    color: #ffb752ff;
   }
 
   .line-number {
@@ -25,7 +24,6 @@ export const styles = css`
 
   .bus-card-head {
     display: flex;
-    align-items: center;
     gap: 10px;
   }
 
