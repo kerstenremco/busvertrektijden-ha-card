@@ -10,6 +10,10 @@ An Home Assistant Card that displays upcoming bus departures on your dashboard
 
 See [Wiki page](https://github.com/kerstenremco/busvertrektijden-ha/wiki/Installatie-HomeAssistant)
 
+## Screenshot
+
+![screenshot](./screenshot.png)
+
 ## Contributing
 
 Contributions are always welcome! Open a PR when needed!
