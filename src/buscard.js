@@ -116,7 +116,7 @@ export class BustijdenCard extends LitElement {
                   <span class="bus-time">${stop.stopTime.arrivalTime}</span>
                   <span class="bus-time-changed">${stop.tripUpdate.calculatedArrivalTime}</span>
                   <span class="bus-time-canceled">Geannuleerd</span>
-                  <span class="stop-text">${stop.stopTime.stopHeadsign}</span>
+                  <span class="stop-text">${stop.stopTime.stopHeadSign.length > 1 ? stop.stopTime.stopHeadSign : stop.stopTime.tripHeadSign}</span>
                   <div class="bus-card-details-time">
                     <span class="bus-direction">${stop.stopTime.routeLongName}</span>
                   </div>

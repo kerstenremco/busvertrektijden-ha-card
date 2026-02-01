@@ -15,7 +15,7 @@
           <span class="bus-time">${this.stripTime(stop.arrivalTime)}</span>
             <span class="bus-time-changed">${this.stripTime(stop.calculatedArrivalTime)}</span>
             <span class="bus-time-canceled">Geannuleerd</span>
-          <span class="stop-text">${stop.tripHeadsign}</span>
+          <span class="stop-text">${stop.stopTime.stopHeadSign.length > 1 ? stop.stopTime.stopHeadSign : stop.stopTime.tripHeadSign}</span>
           <div class="bus-card-details-time">
             <span class="bus-direction">${stop.routeLongName}</span>
           </div>
