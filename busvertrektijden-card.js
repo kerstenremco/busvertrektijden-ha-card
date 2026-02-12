@@ -822,24 +822,24 @@ class $2388023d729b4380$export$5365bfeef88eca6f extends (0, $528e4332d1e3099e$ex
       <div>
         ${this.stops.slice(0, this.amount).map((stop)=>{
             let className = "bus-card";
-            if (stop.tripUpdate.cancelled) className += " canceled";
-            else if (stop.tripUpdate.delay > 0) className += " changed";
+            if (stop.realtime.cancelled) className += " canceled";
+            else if (stop.realtime.delay > 0) className += " changed";
             return (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`
             <div class="${className}">
               <div class="bus-card-head">
-                <span class="line-number">${stop.stopTime.routeShortName}</span>
+                <span class="line-number">${stop["route_short_name"]}</span>
 
                 <div class="bus-card-details">
-                  <span class="bus-time">${stop.stopTime.arrivalTime}</span>
-                  <span class="bus-time-changed">${stop.tripUpdate.calculatedArrivalTime}</span>
+                  <span class="bus-time">${stop["departure_time"].slice(0, 5)}</span>
+                  <span class="bus-time-changed">${stop["computed"]["time"]}</span>
                   <span class="bus-time-canceled">Geannuleerd</span>
-                  <span class="stop-text">${stop.stopTime.stopHeadSign.length > 1 ? stop.stopTime.stopHeadSign : stop.stopTime.tripHeadSign}</span>
+                  <span class="stop-text">${stop["computed"]["name"]}</span>
                   <div class="bus-card-details-time">
-                    <span class="bus-direction">${stop.stopTime.routeLongName}</span>
+                    <span class="bus-direction">${stop["route_long_name"]}</span>
                   </div>
-                  <div class="bus-card-alert">${stop.alerts.map((alert)=>(0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<span class="alert-text">${alert.header}</span>`)}</div>
+                  <div class="bus-card-alert">${stop.alerts?.map((alert)=>(0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<span class="alert-text">${alert.header}</span>`)}</div>
                 </div>
-                <span class="live-time">${stop.tripUpdate.minutesUntill} min</span>
+                <span class="live-time">${Math.floor(stop["computed"]["seconds"] / 60)} min</span>
                 ${0, $31ddf566cad37533$export$c89915e2373763c7}
               </div>
             </div>

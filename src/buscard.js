@@ -102,27 +102,27 @@ export class BustijdenCard extends LitElement {
       <div>
         ${this.stops.slice(0, this.amount).map((stop) => {
           let className = "bus-card";
-          if (stop.tripUpdate.cancelled) {
+          if (stop.realtime.cancelled) {
             className += " canceled";
-          } else if (stop.tripUpdate.delay > 0) {
+          } else if (stop.realtime.delay > 0) {
             className += " changed";
           }
           return html`
             <div class="${className}">
               <div class="bus-card-head">
-                <span class="line-number">${stop.stopTime.routeShortName}</span>
+                <span class="line-number">${stop["route_short_name"]}</span>
 
                 <div class="bus-card-details">
-                  <span class="bus-time">${stop.stopTime.arrivalTime}</span>
-                  <span class="bus-time-changed">${stop.tripUpdate.calculatedArrivalTime}</span>
+                  <span class="bus-time">${stop["departure_time"].slice(0, 5)}</span>
+                  <span class="bus-time-changed">${stop["computed"]["time"]}</span>
                   <span class="bus-time-canceled">Geannuleerd</span>
-                  <span class="stop-text">${stop.stopTime.stopHeadSign.length > 1 ? stop.stopTime.stopHeadSign : stop.stopTime.tripHeadSign}</span>
+                  <span class="stop-text">${stop["computed"]["name"]}</span>
                   <div class="bus-card-details-time">
-                    <span class="bus-direction">${stop.stopTime.routeLongName}</span>
+                    <span class="bus-direction">${stop["route_long_name"]}</span>
                   </div>
-                  <div class="bus-card-alert">${stop.alerts.map((alert) => html`<span class="alert-text">${alert.header}</span>`)}</div>
+                  <div class="bus-card-alert">${stop.alerts?.map((alert) => html`<span class="alert-text">${alert.header}</span>`)}</div>
                 </div>
-                <span class="live-time">${stop.tripUpdate.minutesUntill} min</span>
+                <span class="live-time">${Math.floor(stop["computed"]["seconds"] / 60)} min</span>
                 ${timeIcon}
               </div>
             </div>
