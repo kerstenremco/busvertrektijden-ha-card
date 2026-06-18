@@ -82,6 +82,10 @@ export const styles = css`
   .bus-card.canceled .bus-time-canceled {
     display: inline-block;
   }
+
+  .stop-text-second {
+    font-style: italic;
+  }
 `;
 
 export const timeIcon = html`

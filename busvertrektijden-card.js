@@ -698,6 +698,10 @@ const $31ddf566cad37533$export$9dd6ff9ea0189349 = (0, $06bdd16cbb4a41b3$export$d
   .bus-card.canceled .bus-time-canceled {
     display: inline-block;
   }
+
+  .stop-text-second {
+    font-style: italic;
+  }
 `;
 const $31ddf566cad37533$export$c89915e2373763c7 = (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`
   <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -822,24 +826,22 @@ class $2388023d729b4380$export$5365bfeef88eca6f extends (0, $528e4332d1e3099e$ex
       <div>
         ${this.stops.slice(0, this.amount).map((stop)=>{
             let className = "bus-card";
-            if (stop.realtime.cancelled) className += " canceled";
-            else if (stop.realtime.delay > 0) className += " changed";
+            if (stop.cancelled) className += " canceled";
+            else if (stop.delay > 0) className += " changed";
             return (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`
             <div class="${className}">
               <div class="bus-card-head">
-                <span class="line-number">${stop["route_short_name"]}</span>
+                <span class="line-number">${stop["bus_number"]}</span>
 
                 <div class="bus-card-details">
                   <span class="bus-time">${stop["departure_time"].slice(0, 5)}</span>
-                  <span class="bus-time-changed">${stop["computed"]["time"]}</span>
+                  <span class="bus-time-changed">${stop["computed_time"]}</span>
                   <span class="bus-time-canceled">Geannuleerd</span>
-                  <span class="stop-text">${stop["computed"]["name"]}</span>
-                  <div class="bus-card-details-time">
-                    <span class="bus-direction">${stop["route_long_name"]}</span>
-                  </div>
-                  <div class="bus-card-alert">${stop.alerts?.map((alert)=>(0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<span class="alert-text">${alert.header}</span>`)}</div>
+                  <span class="stop-text">${stop["name"]}</span>
+                  ${stop["trip_name"] ? (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<span class="stop-text-second">(${stop["trip_name"]})</span>` : ""}
+                  <div class="bus-card-alert">${stop.alerts.map((alert)=>(0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<span class="alert-text">${alert}</span>`)}</div>
                 </div>
-                <span class="live-time">${Math.floor(stop["computed"]["seconds"] / 60)} min</span>
+                <span class="live-time">${Math.floor(stop["seconds"] / 60)} min</span>
                 ${0, $31ddf566cad37533$export$c89915e2373763c7}
               </div>
             </div>

@@ -102,27 +102,25 @@ export class BustijdenCard extends LitElement {
       <div>
         ${this.stops.slice(0, this.amount).map((stop) => {
           let className = "bus-card";
-          if (stop.realtime.cancelled) {
+          if (stop.cancelled) {
             className += " canceled";
-          } else if (stop.realtime.delay > 0) {
+          } else if (stop.delay > 0) {
             className += " changed";
           }
           return html`
             <div class="${className}">
               <div class="bus-card-head">
-                <span class="line-number">${stop["route_short_name"]}</span>
+                <span class="line-number">${stop["bus_number"]}</span>
 
                 <div class="bus-card-details">
                   <span class="bus-time">${stop["departure_time"].slice(0, 5)}</span>
-                  <span class="bus-time-changed">${stop["computed"]["time"]}</span>
+                  <span class="bus-time-changed">${stop["computed_time"]}</span>
                   <span class="bus-time-canceled">Geannuleerd</span>
-                  <span class="stop-text">${stop["computed"]["name"]}</span>
-                  <div class="bus-card-details-time">
-                    <span class="bus-direction">${stop["route_long_name"]}</span>
-                  </div>
-                  <div class="bus-card-alert">${stop.alerts?.map((alert) => html`<span class="alert-text">${alert.header}</span>`)}</div>
+                  <span class="stop-text">${stop["name"]}</span>
+                  ${stop["trip_name"] ? html`<span class="stop-text-second">(${stop["trip_name"]})</span>` : ""}
+                  <div class="bus-card-alert">${stop.alerts.map((alert) => html`<span class="alert-text">${alert}</span>`)}</div>
                 </div>
-                <span class="live-time">${Math.floor(stop["computed"]["seconds"] / 60)} min</span>
+                <span class="live-time">${Math.floor(stop["seconds"] / 60)} min</span>
                 ${timeIcon}
               </div>
             </div>
