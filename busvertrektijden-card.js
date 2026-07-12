@@ -617,103 +617,90 @@ const $528e4332d1e3099e$export$f5c524615a7708d6 = {
 
 
 const $31ddf566cad37533$export$9dd6ff9ea0189349 = (0, $06bdd16cbb4a41b3$export$dbf350e5966cf602)`
-  .bus-card {
-    margin-bottom: 10px;
-  }
-
-  .bus-card .bus-card-alert {
-    color: #ffb752ff;
-  }
-
-  .line-number {
-    background-color: #ff793f;
-    display: inline-block;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .bus-card-head {
+  .bvt__stopalert {
+    color: var(--warning-color);
+    font-weight: bolder;
     display: flex;
-    gap: 10px;
+    gap: 0.5em;
+    align-items: center;
   }
 
-  .live-time {
-    color: #33d9b2;
+  .bvt__stopalert__icon {
+    width: 1.3em;
   }
 
-  .bus-card.changed .live-time {
-    color: #ff5252;
+  .bvt__entries {
+    margin-top: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7em;
   }
 
-  .bus-card.canceled .live-time {
-    color: #ff5252;
-    text-decoration: line-through;
+  .bvt__entry {
+    display: flex;
+    gap: 0.5em;
   }
 
-  .bus-card-head svg {
-    stroke: #33d9b2;
+  .bvt__number {
+    width: 50px;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color);
   }
 
-  .bus-card.changed .bus-card-head svg,
-  .bus-card.canceled .bus-card-head svg {
-    stroke: #ff5252;
-  }
-
-  .bus-card-details {
+  .bvt__info {
     flex: 1;
+    align-self: center;
   }
 
-  .bus-time {
-    font-weight: bold;
-  }
-
-  .bus-card.changed .bus-time,
-  .bus-card.canceled .bus-time {
-    font-weight: normal;
+  .bvt__info--strikethrough {
     text-decoration: line-through;
   }
 
-  .bus-time-changed {
+  .bvt__info--cancelled {
+    color: var(--error-color);
     font-weight: bold;
-    color: #ff5252;
-    display: none;
   }
 
-  .bus-card.changed .bus-time-changed {
-    display: inline-block;
-  }
-
-  .bus-time-canceled {
-    font-weight: bold;
-    color: #ff5252;
-    display: none;
-  }
-
-  .bus-card.canceled .bus-time-canceled {
-    display: inline-block;
-  }
-
-  .stop-text-second {
+  .bvt__info__subheader {
     font-style: italic;
   }
-`;
-const $31ddf566cad37533$export$c89915e2373763c7 = (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`
-  <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path
-      d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21Z"
-      stroke-width="1.5"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-    <path d="M12 6V12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M16.24 16.24L12 12" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-  </svg>
+
+  .bvt__info__subheader--alert {
+    font-style: normal;
+    color: var(--warning-color);
+  }
+
+  .bvt__info__time {
+    font-weight: bold;
+    margin-right: 0.2em;
+  }
+
+  .bvt__info__time--strikethrough {
+    text-decoration: line-through;
+    font-weight: normal;
+  }
+
+  .bvt__info__time--late {
+    color: var(--error-color);
+  }
+
+  .bvt__time {
+    text-align: right;
+    align-self: center;
+    color: var(--success-color);
+  }
+
+  .bvt__time--late {
+    color: var(--error-color);
+  }
+
+  .bvt__time--cancelled {
+    color: #ff5252;
+    text-decoration: line-through;
+  }
 `;
 
 
@@ -721,6 +708,10 @@ class $2388023d729b4380$export$5365bfeef88eca6f extends (0, $528e4332d1e3099e$ex
     static styles = (0, $31ddf566cad37533$export$9dd6ff9ea0189349);
     static get properties() {
         return {
+            alerts: {
+                type: Array,
+                state: true
+            },
             stops: {
                 type: Array,
                 state: true
@@ -754,6 +745,7 @@ class $2388023d729b4380$export$5365bfeef88eca6f extends (0, $528e4332d1e3099e$ex
     }
     constructor(){
         super();
+        this.alerts = [];
         this.stops = [];
         this.available = false;
         this.valid_entity = false;
@@ -778,6 +770,7 @@ class $2388023d729b4380$export$5365bfeef88eca6f extends (0, $528e4332d1e3099e$ex
         const state = hass["states"]?.[this.entity];
         if (!state) return;
         this.stop_name = state["attributes"]["friendly_name"];
+        this.alerts = state["attributes"]["alerts"];
         this.stops = state["attributes"]["stops"];
         this.lastUpdated = state["last_updated"];
         // Check availability
@@ -816,38 +809,79 @@ class $2388023d729b4380$export$5365bfeef88eca6f extends (0, $528e4332d1e3099e$ex
             }
         };
     }
-    render() {
-        if (!this.valid_entity) return (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<div>Ongeldige entity. Zorg ervoor dat je een sensor met het juiste formaat gebruikt.</div>`;
-        if (this.available === false) return (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<div>Geen busgegevens beschikbaar. Controleer je internetverbinding.</div>`;
-        if (!this.stop_name) return (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<div>Halte naam niet beschikbaar. Controleer of de haltecode goed in je configuratie staat.</div>`;
-        if (this.stop_name.endsWith("None")) return (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<div>Deze halte is niet gevonden. Controleer of de haltecode goed in je configuratie staat.</div>`;
-        if (!this.stops || this.stops.length === 0) return (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<div>Er zijn momenteel geen aankomende bussen voor deze halte.</div>`;
-        return (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`
-      <div>
-        ${this.stops.slice(0, this.amount).map((stop)=>{
-            let className = "bus-card";
-            if (stop.cancelled) className += " canceled";
-            else if (stop.delay > 0) className += " changed";
-            return (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`
-            <div class="${className}">
-              <div class="bus-card-head">
-                <span class="line-number">${stop["bus_number"]}</span>
-
-                <div class="bus-card-details">
-                  <span class="bus-time">${stop["departure_time"].slice(0, 5)}</span>
-                  <span class="bus-time-changed">${stop["computed_time"]}</span>
-                  <span class="bus-time-canceled">Geannuleerd</span>
-                  <span class="stop-text">${stop["name"]}</span>
-                  ${stop["trip_name"] ? (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<span class="stop-text-second">(${stop["trip_name"]})</span>` : ""}
-                  <div class="bus-card-alert">${stop.alerts.map((alert)=>(0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<span class="alert-text">${alert}</span>`)}</div>
-                </div>
-                <span class="live-time">${Math.floor(stop["seconds"] / 60)} min</span>
-                ${0, $31ddf566cad37533$export$c89915e2373763c7}
-              </div>
-            </div>
-          `;
-        })}
+    getAlert() {
+        if (this.alerts.length === 0) return (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)``;
+        return (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<div>
+      <div class="bvt__stopalert">
+        <svg class="bvt__stopalert__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor">
+          <path
+            d="M16,1A7,7 0 0,1 23,8C23,11.53 20.39,14.45 17,14.93V18C17,18.84 16.65,19.58 15.96,20.2V22C15.96,22.27 15.87,22.5 15.68,22.71C15.5,22.91 15.26,23 15,23H14C13.71,23 13.47,22.91 13.27,22.71C13.06,22.5 12.96,22.27 12.96,22V21H5.04V22C5.04,22.27 4.94,22.5 4.73,22.71C4.53,22.91 4.29,23 4,23H3C2.74,23 2.5,22.91 2.32,22.71C2.13,22.5 2.04,22.27 2.04,22V20.2C1.35,19.58 1,18.84 1,18V8C1,6.42 1.7,5.35 3.07,4.8C4.44,4.26 6.42,4 9,4L10.23,4.03C11.5,2.2 13.61,1 16,1M16,3A5,5 0 0,0 11,8A5,5 0 0,0 16,13A5,5 0 0,0 21,8A5,5 0 0,0 16,3M15,10H17V12H15V10M15,4H17V9H15V4M3,13H11.09C9.8,11.72 9,9.96 9,8H3V13M4.5,16C3.69,16 3,16.67 3,17.5A1.5,1.5 0 0,0 4.5,19C5.35,19 6,18.33 6,17.5A1.5,1.5 0 0,0 4.5,16M13.5,16C12.65,16 12,16.67 12,17.5A1.5,1.5 0 0,0 13.5,19C14.31,19 15,18.33 15,17.5A1.5,1.5 0 0,0 13.5,16Z"
+          />
+        </svg>
+        ${this.alerts.map((alert)=>(0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<span>${alert}</span>`)}
       </div>
+    </div>`;
+    }
+    getEntries() {
+        let entries = [];
+        this.stops.slice(0, this.amount).map((stop)=>{
+            let infoHeader = [];
+            if (stop["cancelled"] === true) {
+                infoHeader.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<span class="bvt__info__time bvt__info__time--strikethrough">${stop["departure_time"].slice(0, 5)}</span>`);
+                infoHeader.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<span class="bvt__info--strikethrough">${stop["name"]}</span>`);
+                infoHeader.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)` <span class="bvt__info--cancelled">vervallen</span>`);
+            } else if (stop["delay"] > 0) {
+                infoHeader.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<span class="bvt__info__time bvt__info__time--late">${stop["computed_time"]}</span>`);
+                infoHeader.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<span class="bvt__info__time bvt__info__time--strikethrough">${stop["departure_time"].slice(0, 5)}</span>`);
+                infoHeader.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<span>${stop["name"]}</span>`);
+            } else {
+                infoHeader.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<span class="bvt__info__time">${stop["computed_time"]}</span>`);
+                infoHeader.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<span>${stop["name"]}</span>`);
+            }
+            // Class for time
+            let timeClasses = [
+                "bvt__time"
+            ];
+            if (stop["cancelled"] === true) timeClasses.push("bvt__time--cancelled");
+            else if (stop["delay"] > 0) timeClasses.push("bvt__time--late");
+            let timeClass = timeClasses.join(" ");
+            // Class for subheader
+            let alert = stop["alerts"][0];
+            let subheaderClasses = [
+                "bvt__info__subheader"
+            ];
+            if (alert !== undefined) subheaderClasses.push("bvt__info__subheader--alert");
+            let subheaderClass = subheaderClasses.join(" ");
+            entries.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<div class="bvt__entry">
+          <span class="bvt__number">${stop["bus_number"]}</span>
+          <div class="bvt__info">
+            <div>${infoHeader.map((item)=>item)}</div>
+            <div class="${subheaderClass}">
+              <span>${alert !== undefined ? alert : stop["trip_name"]}</span>
+            </div>
+          </div>
+          <span class="${timeClass}">${Math.floor(stop["seconds"] / 60)} min</span>
+        </div>`);
+        });
+        return entries;
+    }
+    render() {
+        let content = [];
+        if (!this.valid_entity) content.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<div>Ongeldige entity. Zorg ervoor dat je een sensor met het juiste formaat gebruikt.</div>`);
+        else if (this.available === false) content.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<div>Geen busgegevens beschikbaar. Controleer je internetverbinding.</div>`);
+        else if (!this.stop_name) content.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<div>Halte naam niet beschikbaar. Controleer of de haltecode goed in je configuratie staat.</div>`);
+        else if (this.stop_name.endsWith("None")) content.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<div>Deze halte is niet gevonden. Controleer of de haltecode goed in je configuratie staat.</div>`);
+        else if (!this.stops || this.stops.length === 0) content.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<div>Er zijn momenteel geen aankomende bussen voor deze halte.</div>`);
+        else {
+            // Alert
+            content.push(this.getAlert());
+            // Stops
+            content.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<div class="bvt__entries">${this.getEntries()}</div>`);
+        }
+        return (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`
+      <ha-card header="${this.stop_name}">
+        <div class="card-content bvt">${content.map((item)=>item)}</div>
+      </ha-card>
     `;
     }
 }

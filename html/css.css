@@ -1,79 +1,84 @@
-.bus-card {
-  color: #f7f1e3;
-  margin-bottom: 10px;
+.bvt__stopalert {
+  color: #ffb142;
+  font-weight: bolder;
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
 }
 
-.line-number {
-  background-color: #ff793f;
-  display: inline-block;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-  font-size: 16px;
-  font-weight: bold;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.bvt__stopalert__icon {
+  width: 1.3em;
 }
 
-.bus-card-head {
+.bvt__entries {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7em;
+}
+
+.bvt__entry {
+  display: flex;
+  gap: 0.5em;
+}
+
+.bvt__number {
+  width: 50px;
+  min-height: 50px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  background-color: #ff793f;
 }
 
-.live-time {
+.bvt__info {
+  flex: 1;
+  align-self: center;
+}
+
+.bvt__info--strikethrough {
+  text-decoration: line-through;
+}
+
+.bvt__info--cancelled {
+  color: #ff5252;
+  font-weight: bold;
+}
+
+.bvt__info__subheader {
+  font-style: italic;
+}
+
+.bvt__info__subheader--alert {
+  font-style: normal;
+  color: #ffb142;
+}
+
+.bvt__info__time {
+  font-weight: bold;
+  margin-right: 0.4em;
+}
+
+.bvt__info__time--strikethrough {
+  text-decoration: line-through;
+  font-weight: normal;
+}
+
+.bvt__info__time--late {
+  color: #ff5252;
+}
+
+.bvt__time {
+  text-align: right;
+  align-self: center;
   color: #33d9b2;
 }
 
-.bus-card.changed .live-time {
+.bvt__time--late {
   color: #ff5252;
 }
 
-.bus-card.canceled .live-time {
+.bvt__time--cancelled {
   color: #ff5252;
   text-decoration: line-through;
-}
-
-.bus-card-head svg {
-  stroke: #33d9b2;
-}
-
-.bus-card.changed .bus-card-head svg,
-.bus-card.canceled .bus-card-head svg {
-  stroke: #ff5252;
-}
-
-.bus-card-details {
-  flex: 1;
-}
-
-.bus-time {
-  font-weight: bold;
-}
-
-.bus-card.changed .bus-time,
-.bus-card.canceled .bus-time {
-  font-weight: normal;
-  text-decoration: line-through;
-}
-
-.bus-time-changed {
-  font-weight: bold;
-  color: #ff5252;
-  display: none;
-}
-
-.bus-card.changed .bus-time-changed {
-  display: inline-block;
-}
-
-.bus-time-canceled {
-  font-weight: bold;
-  color: #ff5252;
-  display: none;
-}
-
-.bus-card.canceled .bus-time-canceled {
-  display: inline-block;
 }
