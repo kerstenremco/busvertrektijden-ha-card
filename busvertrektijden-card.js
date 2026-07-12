@@ -810,7 +810,7 @@ class $2388023d729b4380$export$5365bfeef88eca6f extends (0, $528e4332d1e3099e$ex
         };
     }
     getAlert() {
-        if (this.alerts.length === 0) return (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)``;
+        if (this.alerts === undefined || this.alerts.length === 0) return (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)``;
         return (0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<div>
       <div class="bvt__stopalert">
         <svg class="bvt__stopalert__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor">

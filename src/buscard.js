@@ -83,7 +83,7 @@ export class BustijdenCard extends LitElement {
   }
 
   getAlert() {
-    if (this.alerts.length === 0) {
+    if (this.alerts === undefined || this.alerts.length === 0) {
       return html``;
     }
 
