@@ -126,9 +126,9 @@ export class BustijdenCard extends LitElement {
       let timeClass = timeClasses.join(" ");
 
       // Class for subheader
-      let alert = stop["alerts"][0];
+      let alerts = stop["alerts"];
       let subheaderClasses = ["bvt__info__subheader"];
-      if (alert !== undefined) {
+      if (alerts !== undefined) {
         subheaderClasses.push("bvt__info__subheader--alert");
       }
       let subheaderClass = subheaderClasses.join(" ");
@@ -139,7 +139,7 @@ export class BustijdenCard extends LitElement {
           <div class="bvt__info">
             <div>${infoHeader.map((item) => item)}</div>
             <div class="${subheaderClass}">
-              <span>${alert !== undefined ? alert : stop["trip_name"]}</span>
+              <span>${alerts !== undefined ? alerts[0] : stop["trip_name"]}</span>
             </div>
           </div>
           <span class="${timeClass}">${Math.floor(stop["seconds"] / 60)} min</span>

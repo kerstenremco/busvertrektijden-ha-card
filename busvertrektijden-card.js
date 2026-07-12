@@ -846,18 +846,18 @@ class $2388023d729b4380$export$5365bfeef88eca6f extends (0, $528e4332d1e3099e$ex
             else if (stop["delay"] > 0) timeClasses.push("bvt__time--late");
             let timeClass = timeClasses.join(" ");
             // Class for subheader
-            let alert = stop["alerts"][0];
+            let alerts = stop["alerts"];
             let subheaderClasses = [
                 "bvt__info__subheader"
             ];
-            if (alert !== undefined) subheaderClasses.push("bvt__info__subheader--alert");
+            if (alerts !== undefined) subheaderClasses.push("bvt__info__subheader--alert");
             let subheaderClass = subheaderClasses.join(" ");
             entries.push((0, $d33ef1320595a3ac$export$c0bb0b647f701bb5)`<div class="bvt__entry">
           <span class="bvt__number">${stop["bus_number"]}</span>
           <div class="bvt__info">
             <div>${infoHeader.map((item)=>item)}</div>
             <div class="${subheaderClass}">
-              <span>${alert !== undefined ? alert : stop["trip_name"]}</span>
+              <span>${alerts !== undefined ? alerts[0] : stop["trip_name"]}</span>
             </div>
           </div>
           <span class="${timeClass}">${Math.floor(stop["seconds"] / 60)} min</span>
