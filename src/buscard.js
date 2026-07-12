@@ -42,7 +42,7 @@ export class BustijdenCard extends LitElement {
   set hass(hass) {
     this._hass = hass;
     // Validate entity
-    this.valid_entity = this.entity.includes("bus_stop_");
+    this.valid_entity = this.entity.includes("bus_stop_") || this.entity.includes("bushalte_");
     if (!this.valid_entity) {
       return;
     }
